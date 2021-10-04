@@ -6,7 +6,8 @@
 #include <string>
 #include <vector>
 
-class Student {
+class Student
+{
 public:
 	std::string name;
 	int student_id;
@@ -14,7 +15,8 @@ public:
 	std::string department;
 	std::string telephone;
 
-	Student(std::string line) {
+	Student(std::string line)
+	{
 		std::vector<std::string> parse;
 		std::istringstream ss(line);
 		std::string token;
@@ -27,7 +29,8 @@ public:
 		telephone = parse[4];
 	}
 
-	std::string GetStudent() {
+	std::string GetStudent()
+	{
 		return name + "," +
 			std::to_string(student_id) + "," +
 			std::to_string(birth_year) + "," +
@@ -39,16 +42,19 @@ public:
 std::string file;
 std::vector<Student> student_info;
 
-void ReadAll() {
+void ReadAll()
+{
 	std::ifstream fin(file);
-	if (!fin.is_open()) {
+	if (!fin.is_open())
+	{
 		std::cout << "Since the file doesn't exist, it creates a new file.\n";
 		std::ofstream make_file(file);
 		make_file.close();
 		return;
 	}
 
-	while (!fin.eof()) {
+	while (!fin.eof())
+	{
 		std::string line;
 		std::getline(fin, line);
 		if (line.empty()) break;
@@ -58,34 +64,40 @@ void ReadAll() {
 	fin.close();
 }
 
-void WriteAll() {
+void WriteAll()
+{
 	std::ofstream fout(file);
 	for (Student student : student_info) fout << student.GetStudent() << std::endl;
 	fout.close();
 }
 
-void WriteLine(Student student) {
+void WriteLine(Student student)
+{
 	student_info.push_back(student);
 	std::ofstream fout(file, std::ios::out | std::ios::app);
 	fout << student.GetStudent() << std::endl;
 	fout.close();
 }
 
-void Insertion() {
+void Insertion()
+{
 	Student s("Inseo Park,1111111111,1996,Computer Science,01012345678");
 	WriteLine(s);
 }
 
-void Search() {
+void Search()
+{
 	for (Student student : student_info) std::cout << student.name << std::endl;
 }
 
-void Sorting() {
+void Sorting()
+{
 	std::sort(student_info.begin(), student_info.end(), [](Student a, Student b) { return a.name < b.name; });
 	WriteAll();
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char** argv)
+{
 	if (argc < 2)
 	{
 		std::cout << "Please enter a file name.\n";
@@ -94,7 +106,8 @@ int main(int argc, char** argv) {
 	file = argv[1];
 	ReadAll();
 
-	while (true) {
+	while (true)
+	{
 		int num = 0;
 		std::cout << "1. Insertion\n2. Search\n3. Sorting Option\n4. Exit\n";
 		std::cin >> num;
