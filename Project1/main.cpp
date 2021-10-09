@@ -15,7 +15,7 @@ public:
 	std::string department;
 	std::string telephone;
 
-	Student(std::string line)
+	Student(std::string line) // "이요한[15],학번[10],1997[4],학과,01012345678"
 	{
 		std::vector<std::string> parse;
 		std::istringstream ss(line);
@@ -27,6 +27,15 @@ public:
 		birth_year = std::stoi(parse[2]);
 		department = parse[3];
 		telephone = parse[4];
+	}
+	Student(std::string nm, int stdid, int birth, std::string depart, std::string tel)
+	{
+		name = nm;
+		student_id = stdid;
+		birth_year = birth;
+		department = depart;
+		telephone = tel;
+
 	}
 
 	std::string GetStudent()
@@ -79,10 +88,127 @@ void WriteLine(Student student)
 	fout.close();
 }
 
-void Insertion()
+void Insertion() // 요한
 {
-	Student s("Inseo Park,1111111111,1996,Computer Science,01012345678");
+	// 이름 입력
+	std::cout << "\nEnter student's name : ";
+	std::string name;
+
+	//std::cin >> name;
+	std::cin.ignore(); // cin의 whitespace를 무시? 하고 getline으로 값 받기
+	std::getline(std::cin, name);
+
+	if (name.empty())
+	{
+		// 에러
+		std::cout << "\nPlease enter the name.\n\n";
+		return;
+	}
+
+	if (name.length() > 15)
+	{
+		// 에러
+		std::cout << "\nPlease enter the name.\n\n";
+		return;
+	}
+
+	// 학번
+	int stdid;
+
+	std::cout << "Enter student id:";
+	std::cin >> stdid;
+
+	if (stdid < 1000000000 || stdid > 9999999999) // 10자리 확인
+	{
+		// 자리수 에러
+		std::cout << "Please enter correct student ID. you should enter 10 digits.\n" << std::endl;
+		return;
+	}
+
+	if (stdid < 1900000000 || stdid > 2077000000) // 연도 확인.. 임의로 1900~2077로 설정
+	{
+		// 학번 에러
+		std::cout << "Please enter correct student ID.\n Student IDs can only be entered from 1900 to 2077\n" << std::endl;
+
+		return;
+	}
+
+	// 중복체크
+	for (Student student : student_info)
+	{
+		if (student.student_id == stdid)
+		{
+			// 에러
+			std::cout << "\nError : Already inserted\n";
+
+			return;
+		}
+	}
+
+
+	// 생년
+	int birth;
+	std::cout << "Enter student's birth year :";
+	if (!(std::cin >> birth))
+	{
+		std::cin.clear();
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	}
+
+
+	/*
+		if (cin >> taxableIncome) {
+		break;
+	} else {
+		cout << "Please enter a valid integer" << endl;
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	}
+	*/
+
+	/**
+	if (birth.length() < 4) {
+		// 에러
+		return;
+	}
+	birth = birth.substr(0, 4); // 앞의 4자리?
+	**/
+
+	if (birth < 1000 || birth > 9999)
+	{
+		// 에러
+		std::cout << "\nPlease enter correct birth year.\nyou should enter 4 digits.\n" << std::endl;
+
+		return;
+	}
+
+	// 학과
+	std::string depart;
+	std::cout << "Enter student's department :";
+	// std::cin >> depart;
+	std::cin.ignore();
+	std::getline(std::cin, depart); // 공백도 받게
+
+
+	// 전화번호
+	std::string tel;
+	std::cout << "Enter student's TEL number :";
+	std::cin >> tel;
+
+	// 12자리 체크
+	if (tel.length() > 12) //최대 12자리
+	{
+		// 에러
+		std::cout << "\nPlease enter correct TEL number.\nTEL number has up to 12 digits.\n\n";
+
+		return;
+	}
+
+	// 저장
+	Student s(name, stdid, birth, depart, tel);
 	WriteLine(s);
+	std::cout << "\nsaved successfully!\n\n";
+
 }
 
 void Search()
@@ -96,14 +222,20 @@ void Sorting()
 	WriteAll();
 }
 
-int main(int argc, char** argv)
+int main(int argc, char** argv) // run.exe stu.txt jjhg ==> argc=3,  run.exe => argc=1
 {
 	if (argc < 2)
 	{
-		std::cout << "Please enter a file name.\n";
-		return 0;
+		//	std::cout << "Please enter a file name.\n";
+		//	return 0;
+		file = "file1.txt";
 	}
-	file = argv[1];
+	else
+	{
+		file = argv[1];
+	}
+
+
 	ReadAll();
 
 	while (true)
@@ -116,7 +248,8 @@ int main(int argc, char** argv)
 		else if (num == 2) Search();
 		else if (num == 3) Sorting();
 		else if (num == 4) break;
-		else std::cout << "Please enter the correct number.\n";
+		else std::cout << num << " Please enter the correct number.\n";
+
 	}
 	std::cout << "Program terminated\n";
 	return 0;
