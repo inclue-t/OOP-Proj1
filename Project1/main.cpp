@@ -90,9 +90,39 @@ void Search()
 	for (Student student : student_info) std::cout << student.name << std::endl;
 }
 
+
+bool Comparename(Student a, Student b)
+{
+	return a.name < b.name;
+}
+bool Compareid(Student a, Student b)
+{
+	return a.student_id < b.student_id;
+}
+bool Compareyear(Student a, Student b)
+{
+	return a.birth_year < b.birth_year;
+}
+bool Comparedepart(Student a, Student b)
+{
+	return a.department < b.department;
+}
+
 void Sorting()
 {
-	std::sort(student_info.begin(), student_info.end(), [](Student a, Student b) { return a.name < b.name; });
+	int sortnum = 0;
+
+	while (sortnum > 4 || sortnum < 1)
+	{
+		std::cout << "- Sorting Option\n1. Sort by Name\n2. Sort by Student ID\n3. Sort by Admission year\n4. Sort by Department namet\n";
+		std::cin >> sortnum;
+		if (sortnum == 1) std::sort(student_info.begin(), student_info.end(), Comparename);
+		else if (sortnum == 2) std::sort(student_info.begin(), student_info.end(), Compareid);
+		else if (sortnum == 3) std::sort(student_info.begin(), student_info.end(), Compareyear);
+		else if (sortnum == 4) std::sort(student_info.begin(), student_info.end(), Comparedepart);
+		else std::cout << "invalid order";
+	}
+	std::cout << "Go back to the main menu, after selecting the sorting option..\n";
 	WriteAll();
 }
 
@@ -121,3 +151,5 @@ int main(int argc, char** argv)
 	std::cout << "Program terminated\n";
 	return 0;
 }
+
+
