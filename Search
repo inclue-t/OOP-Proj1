@@ -211,8 +211,11 @@ void SearchDepartment()
 
 void SearchAll() 
 {
+	int num = 0;
+
 	for (Student student : student_info) 
 	{		
+		num++;
 		std::cout << student.name + ',' << std::endl;
 		std::cout << student.student_id + ',' << std::endl;
 		std::cout << student.birth_year + ',' << std::endl;
@@ -220,6 +223,9 @@ void SearchAll()
 		std::cout << student.telephone + '\n' << std::endl;
 		
 	}
+
+	std::cout << "Total" << num << "student was found.\n";
+
 }
 
 
