@@ -93,7 +93,7 @@ void WriteLine(Student student)
 void Insertion()
 {
 	// 이름 입력
-	std::cout << "\nEnter student's name : ";
+	std::cout << "\nEnter student's name:";
 	std::string name;
 
 	//std::cin >> name;
@@ -150,7 +150,7 @@ void Insertion()
 
 	// 생년
 	int birth;
-	std::cout << "Enter student's birth year :";
+	std::cout << "Enter student's birth year:";
 	if (!(std::cin >> birth))
 	{
 		std::cin.clear();
@@ -186,7 +186,7 @@ void Insertion()
 
 	// 학과
 	std::string depart;
-	std::cout << "Enter student's department :";
+	std::cout << "Enter student's department:";
 	// std::cin >> depart;
 	std::cin.ignore();
 	std::getline(std::cin, depart); // 공백도 받게
@@ -194,7 +194,7 @@ void Insertion()
 
 	// 전화번호
 	std::string tel;
-	std::cout << "Enter student's TEL number :";
+	std::cout << "Enter student's TEL number:";
 	std::cin >> tel;
 
 	// 12자리 체크
@@ -221,7 +221,7 @@ void SearchName()
 
 	std::cout << "Please input your name.\n";
 	std::cin.ignore();
-	std::getline(std::cin, name); // 공백도 받게
+	std::getline(std::cin, name);
 
 	for (Student student : student_info) 
 	{
@@ -305,7 +305,8 @@ void SearchDepartment()
 	std::string department;
 
 	std::cout << "Please input your department.\n";
-	std::cin >> department;
+	std::cin.ignore();
+	std::getline(std::cin, department);
 
 	for (Student student : student_info) 
 	{
