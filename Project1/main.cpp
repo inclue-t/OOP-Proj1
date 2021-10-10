@@ -128,17 +128,16 @@ void Sorting()
 
 int main(int argc, char** argv)
 {
+	if (argc < 2)
+	{
+		std::cout << "Please enter a file name.\n";
+		return 0;
+	}
+	file = argv[1];
+	ReadAll();
 
 	while (true)
 	{
-		if (argc < 2)
-		{
-			std::cout << "Please enter a file name.\n";
-			return 0;
-		}
-		file = argv[1];
-		ReadAll();
-
 		int num = 0;
 		std::cout << "1. Insertion\n2. Search\n3. Sorting Option\n4. Exit\n";
 		std::cin >> num;
@@ -152,4 +151,5 @@ int main(int argc, char** argv)
 	std::cout << "Program terminated\n";
 	return 0;
 }
+
 
