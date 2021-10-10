@@ -90,53 +90,44 @@ void Search()
 	for (Student student : student_info) std::cout << student.name << std::endl;
 }
 
-bool comparename(std::string a, std::string b)
+
+bool Comparename(Student a, Student b)
 {
-	return a < b;
+	return a.name < b.name;
 }
-bool compareid(int a, int b)
+bool Compareid(Student a, Student b)
 {
-	return a < b;
+	return a.student_id < b.student_id;
 }
-bool compareyear(int a, int b)
+bool Compareyear(Student a, Student b)
 {
-	return a < b;
+	return a.birth_year < b.birth_year;
 }
-bool comparedepart(std::string a, std::string b)
+bool Comparedepart(Student a, Student b)
 {
-	return a < b;
+	return a.department < b.department;
 }
 
 void Sorting()
 {
 	int sortnum = 0;
 
-	while (sortnum > 4 && sortnum<1)
+	while (sortnum > 4 || sortnum < 1)
 	{
 		std::cout << "- Sorting Option\n1. Sort by Name\n2. Sort by Student ID\n3. Sort by Admission year\n4. Sort by Department namet\n";
 		std::cin >> sortnum;
-		if (sortnum == 1) std::sort(student_info.begin(), student_info.end(), comparename);
-		else if (sortnum == 2) std::sort(student_info.begin(), student_info.end(), compareid);
-		else if (sortnum == 3) std::sort(student_info.begin(), student_info.end(), compareyear);
-		else if (sortnum == 4) std::sort(student_info.begin(), student_info.end(), comparedepart);
-		else
-		{
-	    std::cout << "invalid order";
-		}
+		if (sortnum == 1) std::sort(student_info.begin(), student_info.end(), Comparename);
+		else if (sortnum == 2) std::sort(student_info.begin(), student_info.end(), Compareid);
+		else if (sortnum == 3) std::sort(student_info.begin(), student_info.end(), Compareyear);
+		else if (sortnum == 4) std::sort(student_info.begin(), student_info.end(), Comparedepart);
+		else std::cout << "invalid order";
 	}
-	std::cout << "Go back to the main menu, after selecting the sorting option..";
+	std::cout << "Go back to the main menu, after selecting the sorting option..\n";
 	WriteAll();
 }
 
 int main(int argc, char** argv)
 {
-	if (argc < 2)
-	{
-		std::cout << "Please enter a file name.\n";
-		return 0;
-	}
-	file = argv[1];
-	ReadAll();
 
 	while (true)
 	{
@@ -153,3 +144,4 @@ int main(int argc, char** argv)
 	std::cout << "Program terminated\n";
 	return 0;
 }
+
