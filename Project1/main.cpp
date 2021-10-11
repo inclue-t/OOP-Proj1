@@ -242,7 +242,7 @@ void SearchName()
 void SearchId() 
 {
 	int num = 0;
-	int id;
+	long long id; // 10자리 수를 받기 위하여 long long을 사용.
 
 	std::cout << "Please input your student ID. (10 numbers)\n";
 	std::cin >> id;
@@ -252,21 +252,25 @@ void SearchId()
 		std::cout << "You input wrong ID.\n";
 		SearchId();
 	}
-
-	for (Student student : student_info) 
+	// 기존 방식에서는 input wrong ID 인 상태에서도 Total ~ student was found 가 출력되었기 때문에, else문 안에 넣어서 처리하였음.
+	else 
 	{
-		if (student.student_id == id) 
+		for (Student student : student_info)
 		{
-			num++;
-			std::cout << student.name + "," << std::endl;
-			std::cout << std::to_string(student.student_id) + "," << std::endl;
-			std::cout << std::to_string(student.birth_year) + "," << std::endl;
-			std::cout << student.department + "," << std::endl;
-			std::cout << student.telephone + '\n' << std::endl;
+			if (static_cast<long long>(student.student_id) == id) // vector안의 값을 long long으로 형변환
+			{
+				num++;
+				std::cout << student.name + "," << std::endl;
+				std::cout << std::to_string(student.student_id) + "," << std::endl;
+				std::cout << std::to_string(student.birth_year) + "," << std::endl;
+				std::cout << student.department + "," << std::endl;
+				std::cout << student.telephone + '\n' << std::endl;
+			}
 		}
+
+		std::cout << "Total " << num << " student was found.\n";
 	}
 
-	std::cout << "Total " << num << " student was found.\n";
 }
 
 void SearchYear() 
@@ -348,7 +352,7 @@ void Search()
 	while (true)
 	{
 		int num = 0;
-		std::cout << "1. Search by name\n2. Search by student ID\n3. Search by admission year\n4. Search by department name\n5. List All\n6. Exit\n";
+		std::cout << "- Search -\n1. Search by name\n2. Search by student ID\n3. Search by admission year\n4. Search by department name\n5. List All\n6. Exit\n";
 		std::cin >> num;
 
 		if (num == 1) SearchName();
@@ -356,6 +360,7 @@ void Search()
 		else if (num == 3) SearchYear();
 		else if (num == 4) SearchDepartment();
 		else if (num == 5) SearchAll();
+		else if (num == 6);
 		else std::cout << "Please enter the correct number.\n";
 
 		if (num >= 1 && num <= 6) break;
