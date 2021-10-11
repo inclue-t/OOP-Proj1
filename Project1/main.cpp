@@ -200,8 +200,9 @@ void Insertion() // ����
 		if (!(std::cin >> stdid)) { //0
 			std::cin.clear();
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			std::cout << "\nPlease enter correct student id(digit).\nyou should enter 10 digits. your input="<<stdid<<"\n";
+			std::cout << "\nPlease enter correct student id(digit).\nyou should enter 10 digits. your input=" << stdid << "\n";
 			// std::cin.ignore();
+		}
 
 
 		if (stdid < 1000000000 || stdid > 9999999999) // 10�ڸ� Ȯ��
@@ -243,8 +244,8 @@ void Insertion() // ����
 	// 생년
 	int birth;
 
-	std::cout << "Enter student's birth year:";
-
+	//std::cout << "Enter student's birth year:";
+	/*
 	if (!(std::cin >> birth))
 	{
 		std::cin.clear();
@@ -339,7 +340,7 @@ void Insertion() // ����
 }
 
 
-void Search()
+void SearchName()
 {
 	int num = 0;
 	std::string name;
@@ -367,65 +368,92 @@ void Search()
 void SearchId() 
 {
 	int num = 0;
-	long long id; // 10자리 수를 받기 위하여 long long을 사용.
+	std::string id ;
+	long long id_changed = 0; // 10자리 수를 받기 위하여 long long을 사용.
 
 	std::cout << "Please input your student ID. (10 numbers)\n";
 	std::cin >> id;
 
-	if ( id < 1000000000 || id >= 10000000000) 
+	// Digit check
+	if (!isDigitOnly(id)) 
 	{
-		std::cout << "You input wrong ID.\n";
+		std::cout << "Please input correct ID.\nYou should enter number. \n";
 		SearchId();
 	}
-	// 기존 방식에서는 input wrong ID 인 상태에서도 Total ~ student was found 가 출력되었기 때문에, else문 안에 넣어서 처리하였음.
 	else 
 	{
-		for (Student student : student_info)
+		id_changed = stoll(id); // String to long long
+
+		// Range check
+		if (id_changed < 1000000000 || id_changed >= 10000000000)
 		{
-			if (static_cast<long long>(student.student_id) == id) // vector안의 값을 long long으로 형변환
-			{
-				num++;
-				std::cout << student.name + "," << std::endl;
-				std::cout << std::to_string(student.student_id) + "," << std::endl;
-				std::cout << std::to_string(student.birth_year) + "," << std::endl;
-				std::cout << student.department + "," << std::endl;
-				std::cout << student.telephone + '\n' << std::endl;
-			}
+			std::cout << "You input wrong ID.\n";
+			SearchId();
 		}
+		// 기존 방식에서는 input wrong ID 인 상태에서도 Total ~ student was found 가 출력되었기 때문에, else문 안에 넣어서 처리하였음.
+		else
+		{
+			for (Student student : student_info)
+			{
+				if (static_cast<long long>(student.student_id) == id_changed) // vector안의 값을 long long으로 형변환
+				{
+					num++;
+					std::cout << student.name + "," << std::endl;
+					std::cout << std::to_string(student.student_id) + "," << std::endl;
+					std::cout << std::to_string(student.birth_year) + "," << std::endl;
+					std::cout << student.department + "," << std::endl;
+					std::cout << student.telephone + '\n' << std::endl;
+				}
+			}
 
-		std::cout << "Total " << num << " student was found.\n";
-	}
-
+			std::cout << "Total " << num << " student was found.\n";
+		}
+	}	
 }
 
 void SearchYear() 
 {
 	int num = 0;
-	int year;
+	std::string year;
+	int year_changed = 0;
 
 	std::cout << "Please input your admission year. (4 numbers)\n";
 	std::cin >> year;
 
-	if (year < 1000 || year >= 10000) 
+	// Digit check
+	if (!isDigitOnly(year))
 	{
-		std::cout << "You input wrong year.\n";
+		std::cout << "Please input correct year.\nYou should enter number. \n";
 		SearchYear();
 	}
-
-	for (Student student : student_info) 
+	else 
 	{
-		if (student.student_id / 1000000 == year) 
+		year_changed = stoi(year); // String to int
+
+		// Range check
+		if (year_changed < 1000 || year_changed >= 10000)
 		{
-			num++;
-			std::cout << student.name + "," << std::endl;
-			std::cout << std::to_string(student.student_id) + "," << std::endl;
-			std::cout << std::to_string(student.birth_year) + "," << std::endl;
-			std::cout << student.department + "," << std::endl;
-			std::cout << student.telephone + '\n' << std::endl;
+			std::cout << "You input wrong year.\n";
+			SearchYear();
+		}
+		// 기존 방식에서는 input wrong ID 인 상태에서도 Total ~ student was found 가 출력되었기 때문에, else문 안에 넣어서 처리하였음.
+		else {
+			for (Student student : student_info)
+			{
+				if (student.student_id / 1000000 == year_changed)
+				{
+					num++;
+					std::cout << student.name + "," << std::endl;
+					std::cout << std::to_string(student.student_id) + "," << std::endl;
+					std::cout << std::to_string(student.birth_year) + "," << std::endl;
+					std::cout << student.department + "," << std::endl;
+					std::cout << student.telephone + '\n' << std::endl;
+				}
+			}
+
+			std::cout << "Total " << num << " student was found.\n";
 		}
 	}
-
-	std::cout << "Total " << num << " student was found.\n";
 }
 
 void SearchDepartment()
@@ -549,3 +577,4 @@ int main(int argc, char** argv) // run.exe stu.txt jjhg ==> argc=3,  run.exe => 
 	std::cout << "Program terminated\n";
 	return 0;
 }
+
