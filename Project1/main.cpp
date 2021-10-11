@@ -16,8 +16,8 @@ public:
 	std::string department;
 	std::string telephone;
 
-	Student(std::string line) // "ÀÌ¿äÇÑ[15],ÇĞ¹ø[10],1997[4],ÇĞ°ú,01012345678"
-	{
+	Student(std::string line)
+	{ 
 		std::vector<std::string> parse;
 		std::istringstream ss(line);
 		std::string token;
@@ -29,6 +29,7 @@ public:
 		department = parse[3];
 		telephone = parse[4];
 	}
+
 	Student(std::string nm, int stdid, int birth, std::string depart, std::string tel)
 	{
 		name = nm;
@@ -89,6 +90,7 @@ void WriteLine(Student student)
 	fout.close();
 }
 
+
 bool isDigitOnly(std::string in)
 {
 	for (int i = 0; i < in.length(); i++)
@@ -104,13 +106,12 @@ bool isDigitOnly(std::string in)
 
 bool isCharOnly(std::string in)
 {
-	for (int i = 0; i < in.length(); i++) // for (ÃÊ±â°ª; ¹İº¹Á¶°Ç ; Áõ°¨¿¬»êÀÚ ) 
+	for (int i = 0; i < in.length(); i++) // for (ï¿½Ê±â°ª; ï¿½İºï¿½ï¿½ï¿½ï¿½ ; ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ) 
 	{
 		if (isdigit(in[i])) 
 		{
 			return false;
 		}
-
 	}
 	return true;
 
@@ -137,10 +138,10 @@ inline std::string& trim(std::string& s, const char* t = " \t\n\r\f\v")
 }
 
 
-void Insertion() // ¿äÇÑ
+void Insertion() // ï¿½ï¿½ï¿½ï¿½
 
 {
-	// ÀÌ¸§ ÀÔ·Â
+	// ï¿½Ì¸ï¿½ ï¿½Ô·ï¿½
 
 	std::string name;
 	
@@ -148,7 +149,7 @@ void Insertion() // ¿äÇÑ
 	for (;;)
 	{
 		std::cout << "\nEnter student's name : ";
-		std::cin.ignore(); // cinÀÇ whitespace¸¦ ¹«½Ã? ÇÏ°í getlineÀ¸·Î °ª ¹Ş±â
+		std::cin.ignore(); // cinï¿½ï¿½ whitespaceï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½? ï¿½Ï°ï¿½ getlineï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ş±ï¿½
 		std::getline(std::cin, name);
 		trim(name);
 		std::cout << name << "\n";
@@ -157,32 +158,35 @@ void Insertion() // ¿äÇÑ
 		if (name.empty())
 		{
 
-			// ¿¡·¯
+			// ï¿½ï¿½ï¿½ï¿½
 			std::cout << "Please enter the name.\n";
-			//std::cin.ignore(); // ¿£ÅÍµµ °ø¹éÀ¸·Î ÀÎ½ÄÇÏ±â À§ÇØ¼­ ignore ¾²Áö ¾ÊÀ½.
+			//std::cin.ignore(); // ï¿½ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½Ø¼ï¿½ ignore ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½.
 			continue;
 		}
 
 
 		if (name.length() > 15)
 		{
-			// ¿¡·¯
+			// ï¿½ï¿½ï¿½ï¿½
 			std::cout << "Please enter shorter name. you can enter up to 15 digits.\n";
 			continue;
 		}
 		
 		if (!isCharOnly(name))
 		{
-			// ¿¡·¯
+			// ï¿½ï¿½ï¿½ï¿½
 			std::cout << "\nPlease enter correct name.(charactor only)\nyou should enter charactor. your input=" << name << "\n";
 			continue;
 		}
 
 			break;
 		
+		// ì—ëŸ¬
+		std::cout << "\nPlease enter the name.\n\n";
+		return;
 	}
 
-	// ÇĞ¹ø
+	// í•™ë²ˆ
 	int stdid;
 
 	
@@ -199,33 +203,31 @@ void Insertion() // ¿äÇÑ
 			std::cout << "\nPlease enter correct student id(digit).\nyou should enter 10 digits. your input="<<stdid<<"\n";
 			// std::cin.ignore();
 
-			continue;
-		}
 
-		if (stdid < 1000000000 || stdid > 9999999999) // 10ÀÚ¸® È®ÀÎ
+		if (stdid < 1000000000 || stdid > 9999999999) // 10ï¿½Ú¸ï¿½ È®ï¿½ï¿½
 		{
-			// ÀÚ¸®¼ö ¿¡·¯
+			// ï¿½Ú¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			std::cout << "Please enter correct student ID(range). you should enter 10 digits. your input=" << stdid << "\n";
 			//std::cin.ignore();
 			continue;
 		}
 
-		if (stdid < 1918000000 || stdid > 2077000000) // ¿¬µµ È®ÀÎ.. ÀÓÀÇ·Î 1918~2077·Î ¼³Á¤
+		if (stdid < 1918000000 || stdid > 2077000000) // ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½.. ï¿½ï¿½ï¿½Ç·ï¿½ 1918~2077ï¿½ï¿½ ï¿½ï¿½ï¿½
 		{
-			// ÇĞ¹ø ¿¡·¯
+			// ï¿½Ğ¹ï¿½ ï¿½ï¿½ï¿½ï¿½
 			std::cout << "Please enter correct student ID.\n Student IDs can only be entered from 1900 to 2077. your input=" << stdid << "\n";
 			//std::cin.ignore();
 			continue;
 		}
 
-		// Áßº¹Ã¼Å©
+		// ï¿½ßºï¿½Ã¼Å©
 		bool exist = false;
 
 		for (Student student : student_info)
 		{
 			if (student.student_id == stdid)
 			{
-				// ¿¡·¯
+				// ï¿½ï¿½ï¿½ï¿½
 				std::cout << "\nError : Already inserted\n";
 				exist = true;
 				break;
@@ -238,10 +240,11 @@ void Insertion() // ¿äÇÑ
 	}
 
 
-	// »ı³â
+	// ìƒë…„
 	int birth;
 
-	/*
+	std::cout << "Enter student's birth year:";
+
 	if (!(std::cin >> birth))
 	{
 		std::cin.clear();
@@ -254,7 +257,7 @@ void Insertion() // ¿äÇÑ
 		std::cout << "Enter student's birth year : ";
 		//std::cin.ignore();
 
-		if (!(std::cin >> birth))  // ¼ıÀÚ°¡ ¾Æ´Ï¸é 0 ÀÌ ¹İÈ¯, ¼ıÀÚ¸é true
+		if (!(std::cin >> birth))  // ï¿½ï¿½ï¿½Ú°ï¿½ ï¿½Æ´Ï¸ï¿½ 0 ï¿½ï¿½ ï¿½ï¿½È¯, ï¿½ï¿½ï¿½Ú¸ï¿½ true
 		{
 			std::cin.clear();
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -266,7 +269,7 @@ void Insertion() // ¿äÇÑ
 
 		if (birth < 1000 || birth > 9999)
 		{
-			// ¿¡·¯
+			// ï¿½ï¿½ï¿½ï¿½
 			std::cout << "\nPlease enter correct birth year.\nyou should enter 4 digits. your input=" << birth << "\n";
 			std::cin.ignore();
 			continue;
@@ -279,25 +282,27 @@ void Insertion() // ¿äÇÑ
 
 	/**
 	if (birth.length() < 4) {
-		// ¿¡·¯
+		// ì—ëŸ¬
 		return;
 	}
-	birth = birth.substr(0, 4); // ¾ÕÀÇ 4ÀÚ¸®?
+	birth = birth.substr(0, 4); // ì•ì˜ 4ìë¦¬?
 	**/
 
-	// ÇĞ°ú
+
+	// ï¿½Ğ°ï¿½
+
 	std::string depart;
-	std::cout << "Enter student's department :";
+	std::cout << "Enter student's department:";
 	// std::cin >> depart;
 	std::cin.ignore();
-	std::getline(std::cin, depart); // °ø¹éµµ ¹Ş°Ô
+	std::getline(std::cin, depart); // ê³µë°±ë„ ë°›ê²Œ
 
 
-	// ÀüÈ­¹øÈ£
+	// ì „í™”ë²ˆí˜¸
 	std::string tel;
 
 
-	// 12ÀÚ¸® Ã¼Å©
+	// 12ï¿½Ú¸ï¿½ Ã¼Å©
 
 	for (;;)
 	{
@@ -306,9 +311,9 @@ void Insertion() // ¿äÇÑ
 		std::cin >> tel;
 		trim(tel);
 
-		if (tel.length() > 12 || tel.length() < 10) //ÃÖ´ë 12ÀÚ¸®
+		if (tel.length() > 12 || tel.length() < 10) //ï¿½Ö´ï¿½ 12ï¿½Ú¸ï¿½
 		{
-			// ¿¡·¯
+			// ï¿½ï¿½ï¿½ï¿½
 			std::cout << "\nPlease enter correct TEL.(length)\nyou should enter 11 to 12 digits. your input=" << tel << "\n";
 			//std::cin.ignore();
 			continue;
@@ -316,7 +321,7 @@ void Insertion() // ¿äÇÑ
 
 		if (!isDigitOnly(tel)) 
 		{
-			// ¿¡·¯
+			// ï¿½ï¿½ï¿½ï¿½
 			std::cout << "\nPlease enter correct TEL.(number only)\nyou should enter number. your input=" << tel << "\n";
 
 			continue;
@@ -325,39 +330,208 @@ void Insertion() // ¿äÇÑ
 		break;
 	}
 
-	// ÀúÀå
+	// ì €ì¥
 	Student s(name, stdid, birth, depart, tel);
+
 	WriteLine(s);
 	std::cout << "\nsaved successfully!\n\n";
 
 }
 
 
+void Search()
+{
+	int num = 0;
+	std::string name;
+
+	std::cout << "Please input your name.\n";
+	std::cin.ignore();
+	std::getline(std::cin, name);
+
+	for (Student student : student_info) 
+	{
+		if (student.name == name) 
+		{
+			num++;
+			std::cout << student.name + "," << std::endl;
+			std::cout << std::to_string(student.student_id) + "," << std::endl; 
+			std::cout << std::to_string(student.birth_year) + "," << std::endl; 
+			std::cout << student.department + "," << std::endl;
+			std::cout << student.telephone + '\n' << std::endl;
+		}
+	}
+
+	std::cout << "Total " << num << " student was found.\n";
+}
+
+void SearchId() 
+{
+	int num = 0;
+	long long id; // 10ìë¦¬ ìˆ˜ë¥¼ ë°›ê¸° ìœ„í•˜ì—¬ long longì„ ì‚¬ìš©.
+
+	std::cout << "Please input your student ID. (10 numbers)\n";
+	std::cin >> id;
+
+	if ( id < 1000000000 || id >= 10000000000) 
+	{
+		std::cout << "You input wrong ID.\n";
+		SearchId();
+	}
+	// ê¸°ì¡´ ë°©ì‹ì—ì„œëŠ” input wrong ID ì¸ ìƒíƒœì—ì„œë„ Total ~ student was found ê°€ ì¶œë ¥ë˜ì—ˆê¸° ë•Œë¬¸ì—, elseë¬¸ ì•ˆì— ë„£ì–´ì„œ ì²˜ë¦¬í•˜ì˜€ìŒ.
+	else 
+	{
+		for (Student student : student_info)
+		{
+			if (static_cast<long long>(student.student_id) == id) // vectorì•ˆì˜ ê°’ì„ long longìœ¼ë¡œ í˜•ë³€í™˜
+			{
+				num++;
+				std::cout << student.name + "," << std::endl;
+				std::cout << std::to_string(student.student_id) + "," << std::endl;
+				std::cout << std::to_string(student.birth_year) + "," << std::endl;
+				std::cout << student.department + "," << std::endl;
+				std::cout << student.telephone + '\n' << std::endl;
+			}
+		}
+
+		std::cout << "Total " << num << " student was found.\n";
+	}
+
+}
+
+void SearchYear() 
+{
+	int num = 0;
+	int year;
+
+	std::cout << "Please input your admission year. (4 numbers)\n";
+	std::cin >> year;
+
+	if (year < 1000 || year >= 10000) 
+	{
+		std::cout << "You input wrong year.\n";
+		SearchYear();
+	}
+
+	for (Student student : student_info) 
+	{
+		if (student.student_id / 1000000 == year) 
+		{
+			num++;
+			std::cout << student.name + "," << std::endl;
+			std::cout << std::to_string(student.student_id) + "," << std::endl;
+			std::cout << std::to_string(student.birth_year) + "," << std::endl;
+			std::cout << student.department + "," << std::endl;
+			std::cout << student.telephone + '\n' << std::endl;
+		}
+	}
+
+	std::cout << "Total " << num << " student was found.\n";
+}
+
+void SearchDepartment()
+{
+	int num = 0;
+	std::string department;
+
+	std::cout << "Please input your department.\n";
+	std::cin.ignore();
+	std::getline(std::cin, department);
+
+	for (Student student : student_info) 
+	{
+		if (student.department == department) 
+		{
+			num++;
+			std::cout << student.name + "," << std::endl;
+			std::cout << std::to_string(student.student_id) + "," << std::endl;
+			std::cout << std::to_string(student.birth_year) + "," << std::endl;
+			std::cout << student.department + "," << std::endl;
+			std::cout << student.telephone + '\n' << std::endl;
+		}		
+	}
+
+	std::cout << "Total " << num << " student was found.\n";
+
+}
+
+void SearchAll() 
+{
+	int num = 0;
+
+	for (Student student : student_info) 
+	{		
+		num++;
+		std::cout << student.name + "," << std::endl;
+		std::cout << std::to_string(student.student_id) + "," << std::endl;
+		std::cout << std::to_string(student.birth_year) + "," << std::endl;
+		std::cout << student.department + "," << std::endl;
+		std::cout << student.telephone + '\n' << std::endl;
+	}
+
+	std::cout << "Total " << num << " student was found.\n";
+
+}
 
 void Search()
 {
-	for (Student student : student_info) std::cout << student.name << std::endl;
+	while (true)
+	{
+		int num = 0;
+		std::cout << "- Search -\n1. Search by name\n2. Search by student ID\n3. Search by admission year\n4. Search by department name\n5. List All\n6. Exit\n";
+		std::cin >> num;
+
+		if (num == 1) SearchName();
+		else if (num == 2) SearchId();
+		else if (num == 3) SearchYear();
+		else if (num == 4) SearchDepartment();
+		else if (num == 5) SearchAll();
+		else if (num == 6);
+		else std::cout << "Please enter the correct number.\n";
+
+		if (num >= 1 && num <= 6) break;
+	}
+}
+
+bool CompareName(Student a, Student b)
+{
+	return a.name < b.name;
+}
+bool CompareId(Student a, Student b)
+{
+	return a.student_id < b.student_id;
+}
+bool CompareYear(Student a, Student b)
+{
+	return a.birth_year < b.birth_year;
+}
+bool CompareDepart(Student a, Student b)
+{
+	return a.department < b.department;
 }
 
 void Sorting()
 {
-	std::sort(student_info.begin(), student_info.end(), [](Student a, Student b) { return a.name < b.name; });
+	int sortnum = 0;
+
+	while (sortnum > 4 || sortnum < 1)
+	{
+		std::cout << "- Sorting Option\n1. Sort by Name\n2. Sort by Student ID\n3. Sort by Admission year\n4. Sort by Department namet\n";
+		std::cin >> sortnum;
+		if (sortnum == 1) std::sort(student_info.begin(), student_info.end(), CompareName);
+		else if (sortnum == 2) std::sort(student_info.begin(), student_info.end(), CompareId);
+		else if (sortnum == 3) std::sort(student_info.begin(), student_info.end(), CompareYear);
+		else if (sortnum == 4) std::sort(student_info.begin(), student_info.end(), CompareDepart);
+		else std::cout << "invalid order";
+	}
+	std::cout << "Go back to the main menu, after selecting the sorting option..\n";
 	WriteAll();
 }
 
 int main(int argc, char** argv) // run.exe stu.txt jjhg ==> argc=3,  run.exe => argc=1
 {
-	if (argc < 2)
-	{
-	//	std::cout << "Please enter a file name.\n";
-	//	return 0;
-		file = "file1.txt";
-	} else
-	{ 
-		file = argv[1];
-	}
-	
-	
+	if (argc < 2) file = "file1.txt";
+	else file = argv[1];
+
 	ReadAll();
 
 	while (true)
@@ -370,8 +544,7 @@ int main(int argc, char** argv) // run.exe stu.txt jjhg ==> argc=3,  run.exe => 
 		else if (num == 2) Search();
 		else if (num == 3) Sorting();
 		else if (num == 4) break;
-		else std::cout << num << " Please enter the correct number.\n";
-		
+		else std::cout << "Please enter the correct number.\n";
 	}
 	std::cout << "Program terminated\n";
 	return 0;
