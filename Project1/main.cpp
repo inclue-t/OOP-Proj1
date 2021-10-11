@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <string>
 #include <vector>
+#include <ctype.h>
 
 class Student
 {
@@ -90,25 +91,96 @@ void WriteLine(Student student)
 }
 
 
-void Insertion()
+bool isDigitOnly(std::string in)
 {
-	// 이름 입력
-	std::cout << "\nEnter student's name:";
-	std::string name;
-
-	//std::cin >> name;
-	std::cin.ignore(); // cin의 whitespace를 무시? 하고 getline으로 값 받기
-	std::getline(std::cin, name);
-
-	if (name.empty())
+	for (int i = 0; i < in.length(); i++)
 	{
-		// 에러
-		std::cout << "\nPlease enter the name.\n\n";
-		return;
+		if (!isdigit(in[i])) {
+			return false;
+		}
+
 	}
+	return true;
 
-	if (name.length() > 15)
+}
+
+bool isCharOnly(std::string in)
+{
+	for (int i = 0; i < in.length(); i++) // for (�ʱⰪ; �ݺ���� ; ������� ) 
 	{
+		if (isdigit(in[i])) 
+		{
+			return false;
+		}
+	}
+	return true;
+
+}
+
+
+// trim from left 
+inline std::string& ltrim(std::string& s, const char* t = " \t\n\r\f\v")
+{
+	s.erase(0, s.find_first_not_of(t));
+	return s;
+}
+// trim from right 
+inline std::string& rtrim(std::string& s, const char* t = " \t\n\r\f\v")
+{
+	s.erase(s.find_last_not_of(t) + 1);
+	return s;
+}
+
+// trim from left & right 
+inline std::string& trim(std::string& s, const char* t = " \t\n\r\f\v")
+{
+	return ltrim(rtrim(s, t), t);
+}
+
+
+void Insertion() // ����
+
+{
+	// �̸� �Է�
+
+	std::string name;
+	
+
+	for (;;)
+	{
+		std::cout << "\nEnter student's name : ";
+		std::cin.ignore(); // cin�� whitespace�� ����? �ϰ� getline��� �� �ޱ�
+		std::getline(std::cin, name);
+		trim(name);
+		std::cout << name << "\n";
+
+
+		if (name.empty())
+		{
+
+			// ����
+			std::cout << "Please enter the name.\n";
+			//std::cin.ignore(); // ���͵� ������ �ν��ϱ� ��ؼ� ignore ���� ���.
+			continue;
+		}
+
+
+		if (name.length() > 15)
+		{
+			// ����
+			std::cout << "Please enter shorter name. you can enter up to 15 digits.\n";
+			continue;
+		}
+		
+		if (!isCharOnly(name))
+		{
+			// ����
+			std::cout << "\nPlease enter correct name.(charactor only)\nyou should enter charactor. your input=" << name << "\n";
+			continue;
+		}
+
+			break;
+		
 		// 에러
 		std::cout << "\nPlease enter the name.\n\n";
 		return;
@@ -117,56 +189,96 @@ void Insertion()
 	// 학번
 	int stdid;
 
-	std::cout << "Enter student id:";
-	std::cin >> stdid;
-
-	if (stdid < 1000000000 || stdid > 9999999999) // 10자리 확인
+	
+	//std::cin.ignore();
+	
+	for (;;)
 	{
-		// 자리수 에러
-		std::cout << "Please enter correct student ID. you should enter 10 digits.\n" << std::endl;
-		return;
-	}
+		std::cout << "Enter student id: ";
+		//std::cin.ignore();
 
-	if (stdid < 1900000000 || stdid > 2077000000) // 연도 확인.. 임의로 1900~2077로 설정
-	{
-		// 학번 에러
-		std::cout << "Please enter correct student ID.\n Student IDs can only be entered from 1900 to 2077\n" << std::endl;
+		if (!(std::cin >> stdid)) { //0
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "\nPlease enter correct student id(digit).\nyou should enter 10 digits. your input="<<stdid<<"\n";
+			// std::cin.ignore();
 
-		return;
-	}
 
-	// 중복체크
-	for (Student student : student_info)
-	{
-		if (student.student_id == stdid)
+		if (stdid < 1000000000 || stdid > 9999999999) // 10�ڸ� Ȯ��
 		{
-			// 에러
-			std::cout << "\nError : Already inserted\n";
-
-			return;
+			// �ڸ��� ����
+			std::cout << "Please enter correct student ID(range). you should enter 10 digits. your input=" << stdid << "\n";
+			//std::cin.ignore();
+			continue;
 		}
+
+		if (stdid < 1918000000 || stdid > 2077000000) // ���� Ȯ��.. ���Ƿ� 1918~2077�� ���
+		{
+			// �й� ����
+			std::cout << "Please enter correct student ID.\n Student IDs can only be entered from 1900 to 2077. your input=" << stdid << "\n";
+			//std::cin.ignore();
+			continue;
+		}
+
+		// �ߺ�üũ
+		bool exist = false;
+
+		for (Student student : student_info)
+		{
+			if (student.student_id == stdid)
+			{
+				// ����
+				std::cout << "\nError : Already inserted\n";
+				exist = true;
+				break;
+			}
+		}
+
+		if (exist) continue;
+		else break;
+
 	}
 
 
 	// 생년
 	int birth;
+
 	std::cout << "Enter student's birth year:";
+
 	if (!(std::cin >> birth))
 	{
 		std::cin.clear();
 		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	}
-
-
-	/*
-		if (cin >> taxableIncome) {
-		break;
-	} else {
-		cout << "Please enter a valid integer" << endl;
-		cin.clear();
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-	}
 	*/
+
+	for (;;)
+	{
+		std::cout << "Enter student's birth year : ";
+		//std::cin.ignore();
+
+		if (!(std::cin >> birth))  // ���ڰ� �ƴϸ� 0 �� ��ȯ, ���ڸ� true
+		{
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "\nPlease enter correct birth year.\nyou should enter 4 digits. your input=" << birth << "\n";
+			// std::cin.ignore();
+			continue;
+		}
+		
+
+		if (birth < 1000 || birth > 9999)
+		{
+			// ����
+			std::cout << "\nPlease enter correct birth year.\nyou should enter 4 digits. your input=" << birth << "\n";
+			std::cin.ignore();
+			continue;
+		}
+		//std::cout << "your input=" << birth << "\n";
+		break;
+
+	}
+
 
 	/**
 	if (birth.length() < 4) {
@@ -176,15 +288,9 @@ void Insertion()
 	birth = birth.substr(0, 4); // 앞의 4자리?
 	**/
 
-	if (birth < 1000 || birth > 9999)
-	{
-		// 에러
-		std::cout << "\nPlease enter correct birth year.\nyou should enter 4 digits.\n" << std::endl;
 
-		return;
-	}
+	// �а�
 
-	// 학과
 	std::string depart;
 	std::cout << "Enter student's department:";
 	// std::cin >> depart;
@@ -194,16 +300,34 @@ void Insertion()
 
 	// 전화번호
 	std::string tel;
-	std::cout << "Enter student's TEL number:";
-	std::cin >> tel;
 
-	// 12자리 체크
-	if (tel.length() > 12) //최대 12자리
+
+	// 12�ڸ� üũ
+
+	for (;;)
 	{
-		// 에러
-		std::cout << "\nPlease enter correct TEL number.\nTEL number has up to 12 digits.\n\n";
+		std::cout << "Enter student's TEL number : ";
 
-		return;
+		std::cin >> tel;
+		trim(tel);
+
+		if (tel.length() > 12 || tel.length() < 10) //�ִ� 12�ڸ�
+		{
+			// ����
+			std::cout << "\nPlease enter correct TEL.(length)\nyou should enter 11 to 12 digits. your input=" << tel << "\n";
+			//std::cin.ignore();
+			continue;
+		}
+
+		if (!isDigitOnly(tel)) 
+		{
+			// ����
+			std::cout << "\nPlease enter correct TEL.(number only)\nyou should enter number. your input=" << tel << "\n";
+
+			continue;
+		}
+
+		break;
 	}
 
 	// 저장
@@ -214,7 +338,8 @@ void Insertion()
 
 }
 
-void SearchName() 
+
+void Search()
 {
 	int num = 0;
 	std::string name;
@@ -420,7 +545,6 @@ int main(int argc, char** argv) // run.exe stu.txt jjhg ==> argc=3,  run.exe => 
 		else if (num == 3) Sorting();
 		else if (num == 4) break;
 		else std::cout << "Please enter the correct number.\n";
-
 	}
 	std::cout << "Program terminated\n";
 	return 0;
