@@ -301,6 +301,7 @@ std::string InputTelephone()
 			std::cout << "\nPlease enter correct TEL.(length)\nyou should enter 11 to 12 digits.\n";
 			continue;
 		}
+    
 		else break;
 	}
 	return telephone;
@@ -316,8 +317,7 @@ void Insertion()
 	std::string department = InputDepartment();
 	std::string telephone = InputTelephone();
 	
-
-	
+	// 저장
 	Student s(name, student_id, birth_year, department, telephone);
 	WriteLine(s);
 	std::cout << "\nSaved successfully!\n\n";
