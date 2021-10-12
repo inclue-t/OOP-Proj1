@@ -147,8 +147,8 @@ std::string InputName()
 		std::cout << "\nEnter student's name\n";
 		name = Input();
 
-		if (name.empty()) std::cout << "\nPlease enter the name.\n";
-		else if (name.length() > 15) std::cout << "\nPlease enter shorter name. you can enter up to 15 digits.\n";
+		if (name.empty()) std::cout << "\nIt should not be empty. Please enter the name.\n";
+		else if (name.length() > 15) std::cout << "\nPlease enter shorter name. you can enter up to 15 charactors.\n";
 		else if (!isCharOnly(name)) std::cout << "\nPlease enter correct name.(charactor only)\nyou should enter charactor.\n";
 		else break;
 	}
@@ -164,15 +164,21 @@ long long InputStudentId(bool check = false)
 		std::cout << "\nEnter student id\n";
 		string_id = Input();
 
+		if (string_id.empty())
+		{
+			std::cout << "\nIt should not be empty. Please enter the student ID.\n";
+			continue;
+		}
+		
 		if (!isDigitOnly(string_id))
 		{
-			std::cout << "\nPlease input correct ID.\nYou should enter number.\n";
+			std::cout << "\nPlease input correct ID.\nYou should enter number only.\n";
 			continue;
 		}
 
 		student_id = std::stoll(string_id);
-		if (string_id.length() != 10) std::cout << "\nPlease enter correct student ID(range). you should enter 10 digits.\n";
-		else if (student_id < 1918000000 || student_id > 2077999999) std::cout << "\nPlease enter correct student ID.\nStudent IDs can only be entered from 1918 to 2077.\n";
+		if (string_id.length() != 10) std::cout << "\nPlease enter correct student ID(length). you should enter 10 digits.\n";
+		else if (student_id < 1918000000 || student_id > 2078000000) std::cout << "\nPlease enter correct student ID.(range)\nStudent IDs can only be entered from 1918 to 2077.\n";
 		else if (check)
 		{
 			bool exist = false;
@@ -180,7 +186,7 @@ long long InputStudentId(bool check = false)
 			{
 				if (student.student_id == student_id)
 				{
-					std::cout << "\nError : Already inserted\n";
+					std::cout << "\nError : Already inserted.\n";
 					exist = true;
 					break;
 				}
@@ -201,9 +207,15 @@ int InputBirthYear()
 		std::cout << "\nEnter birth year\n";
 		string_year = Input();
 
+		if (string_year.empty())
+		{
+			std::cout << "\nIt should not be empty. Please enter the Enter the birth year.\n";
+			continue;
+		}
+
 		if (!isDigitOnly(string_year))
 		{
-			std::cout << "\nPlease input correct year.\nYou should enter number.\n";
+			std::cout << "\nPlease input correct year.\nYou should enter number only.\n";
 			continue;
 		}
 
@@ -223,9 +235,15 @@ int InputAdmissionYear()
 		std::cout << "\nEnter admission year\n";
 		string_year = Input();
 
+		if (string_year.empty())
+		{
+			std::cout << "\nIt should not be empty. Please enter the student ID.\n";
+			continue;
+		}
+
 		if (!isDigitOnly(string_year))
 		{
-			std::cout << "\nPlease input correct year.\nYou should enter number.\n";
+			std::cout << "\nPlease input correct year.\nYou should enter number only.\n";
 			continue;
 		}
 
@@ -238,8 +256,28 @@ int InputAdmissionYear()
 
 std::string InputDepartment()
 {
-	std::cout << "\nEnter student's department\n";
-	return Input();
+	std::string string_depart;
+	for (;;)
+	{
+		std::cout << "\nEnter student's department\n";
+		string_depart = Input();
+
+		if (string_depart.empty())
+		{
+			std::cout << "\nIt should not be empty. Please enter the student's department.\n";
+			continue;
+		}
+
+		if (isDigitOnly(string_depart))
+		{
+			std::cout << "\nPlease input correct Department infomation.\nYou should enter charactors.\n";
+			continue;
+		}
+		else break;
+		//department = std::stoll(string_depart);
+		
+	}
+	return string_depart;
 }
 
 std::string InputTelephone()
@@ -250,8 +288,20 @@ std::string InputTelephone()
 		std::cout << "\nEnter student's Tel number\n";
 		telephone = Input();
 
-		if (telephone.length() > 12 || telephone.length() < 10) std::cout << "\nPlease enter correct TEL.(length)\nyou should enter 11 to 12 digits.\n";
-		else if (!isDigitOnly(telephone)) std::cout << "\nPlease enter correct TEL.(number only)\nyou should enter number.\n";
+		if (telephone.empty())
+		{
+			std::cout << "\nIt should not be empty. Please enter the student's Tel number.\n";
+			continue;
+		}
+
+		if (!isDigitOnly(telephone)) std::cout << "\nPlease enter correct TEL.(number only)\nyou should enter number.\n";
+
+		else if (telephone.length() > 12 || telephone.length() < 10)
+		{
+			std::cout << "\nPlease enter correct TEL.(length)\nyou should enter 11 to 12 digits.\n";
+			continue;
+		}
+    
 		else break;
 	}
 	return telephone;
@@ -267,7 +317,6 @@ void Insertion()
 	std::string department = InputDepartment();
 	std::string telephone = InputTelephone();
 	
-
 	// 저장
 	Student s(name, student_id, birth_year, department, telephone);
 	WriteLine(s);
