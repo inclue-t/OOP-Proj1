@@ -11,7 +11,7 @@ class Student
 {
 public:
 	std::string name;
-	int student_id;
+	long long student_id;
 	int birth_year;
 	std::string department;
 	std::string telephone;
@@ -24,13 +24,13 @@ public:
 		while (std::getline(ss, token, ',')) parse.push_back(token);
 
 		name = parse[0];
-		student_id = std::stoi(parse[1]);
+		student_id = std::stoll(parse[1]);
 		birth_year = std::stoi(parse[2]);
 		department = parse[3];
 		telephone = parse[4];
 	}
 
-	Student(std::string nm, int stdid, int birth, std::string depart, std::string tel)
+	Student(std::string nm, long long stdid, int birth, std::string depart, std::string tel)
 	{
 		name = nm;
 		student_id = stdid;
@@ -90,33 +90,25 @@ void WriteLine(Student student)
 	fout.close();
 }
 
-
-bool isDigitOnly(std::string in)
+bool isDigitOnly(std::string str)
 {
-	for (int i = 0; i < in.length(); i++)
+	for(char ch : str)
 	{
-		if (!isdigit(in[i])) {
-			return false;
-		}
-
+		if (!isdigit(ch)) return false;
 	}
 	return true;
 
 }
 
-bool isCharOnly(std::string in)
+bool isCharOnly(std::string str)
 {
-	for (int i = 0; i < in.length(); i++) // for (�ʱⰪ; �ݺ���� ; ������� ) 
+	for (char ch : str)
 	{
-		if (isdigit(in[i])) 
-		{
-			return false;
-		}
+		if (isdigit(ch)) return false;
 	}
 	return true;
 
 }
-
 
 // trim from left 
 inline std::string& ltrim(std::string& s, const char* t = " \t\n\r\f\v")
@@ -124,6 +116,7 @@ inline std::string& ltrim(std::string& s, const char* t = " \t\n\r\f\v")
 	s.erase(0, s.find_first_not_of(t));
 	return s;
 }
+
 // trim from right 
 inline std::string& rtrim(std::string& s, const char* t = " \t\n\r\f\v")
 {
@@ -137,320 +130,280 @@ inline std::string& trim(std::string& s, const char* t = " \t\n\r\f\v")
 	return ltrim(rtrim(s, t), t);
 }
 
-
-void Insertion() // ����
-
+std::string Input()
 {
-	// �̸� �Է�
-
-	std::string name;
-	
-
-	for (;;)
-	{
-		std::cout << "\nEnter student's name : ";
-		std::cin.ignore(); // cin�� whitespace�� ����? �ϰ� getline��� �� �ޱ�
-		std::getline(std::cin, name);
-		trim(name);
-		std::cout << name << "\n";
-
-
-		if (name.empty())
-		{
-
-			// ����
-			std::cout << "Please enter the name.\n";
-			//std::cin.ignore(); // ���͵� ������ �ν��ϱ� ��ؼ� ignore ���� ���.
-			continue;
-		}
-
-
-		if (name.length() > 15)
-		{
-			// ����
-			std::cout << "Please enter shorter name. you can enter up to 15 digits.\n";
-			continue;
-		}
-		
-		if (!isCharOnly(name))
-		{
-			// ����
-			std::cout << "\nPlease enter correct name.(charactor only)\nyou should enter charactor. your input=" << name << "\n";
-			continue;
-		}
-
-			break;
-		
-		// 에러
-		std::cout << "\nPlease enter the name.\n\n";
-		return;
-	}
-
-	// 학번
-	int stdid;
-
-	
-	//std::cin.ignore();
-	
-	for (;;)
-	{
-		std::cout << "Enter student id: ";
-		//std::cin.ignore();
-
-		if (!(std::cin >> stdid)) { //0
-			std::cin.clear();
-			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			std::cout << "\nPlease enter correct student id(digit).\nyou should enter 10 digits. your input="<<stdid<<"\n";
-			// std::cin.ignore();
-
-
-		if (stdid < 1000000000 || stdid > 9999999999) // 10�ڸ� Ȯ��
-		{
-			// �ڸ��� ����
-			std::cout << "Please enter correct student ID(range). you should enter 10 digits. your input=" << stdid << "\n";
-			//std::cin.ignore();
-			continue;
-		}
-
-		if (stdid < 1918000000 || stdid > 2077000000) // ���� Ȯ��.. ���Ƿ� 1918~2077�� ���
-		{
-			// �й� ����
-			std::cout << "Please enter correct student ID.\n Student IDs can only be entered from 1900 to 2077. your input=" << stdid << "\n";
-			//std::cin.ignore();
-			continue;
-		}
-
-		// �ߺ�üũ
-		bool exist = false;
-
-		for (Student student : student_info)
-		{
-			if (student.student_id == stdid)
-			{
-				// ����
-				std::cout << "\nError : Already inserted\n";
-				exist = true;
-				break;
-			}
-		}
-
-		if (exist) continue;
-		else break;
-
-	}
-
-
-	// 생년
-	int birth;
-
-	std::cout << "Enter student's birth year:";
-
-	if (!(std::cin >> birth))
-	{
-		std::cin.clear();
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-	}
-	*/
-
-	for (;;)
-	{
-		std::cout << "Enter student's birth year : ";
-		//std::cin.ignore();
-
-		if (!(std::cin >> birth))  // ���ڰ� �ƴϸ� 0 �� ��ȯ, ���ڸ� true
-		{
-			std::cin.clear();
-			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			std::cout << "\nPlease enter correct birth year.\nyou should enter 4 digits. your input=" << birth << "\n";
-			// std::cin.ignore();
-			continue;
-		}
-		
-
-		if (birth < 1000 || birth > 9999)
-		{
-			// ����
-			std::cout << "\nPlease enter correct birth year.\nyou should enter 4 digits. your input=" << birth << "\n";
-			std::cin.ignore();
-			continue;
-		}
-		//std::cout << "your input=" << birth << "\n";
-		break;
-
-	}
-
-
-	/**
-	if (birth.length() < 4) {
-		// 에러
-		return;
-	}
-	birth = birth.substr(0, 4); // 앞의 4자리?
-	**/
-
-
-	// �а�
-
-	std::string depart;
-	std::cout << "Enter student's department:";
-	// std::cin >> depart;
-	std::cin.ignore();
-	std::getline(std::cin, depart); // 공백도 받게
-
-
-	// 전화번호
-	std::string tel;
-
-
-	// 12�ڸ� üũ
-
-	for (;;)
-	{
-		std::cout << "Enter student's TEL number : ";
-
-		std::cin >> tel;
-		trim(tel);
-
-		if (tel.length() > 12 || tel.length() < 10) //�ִ� 12�ڸ�
-		{
-			// ����
-			std::cout << "\nPlease enter correct TEL.(length)\nyou should enter 11 to 12 digits. your input=" << tel << "\n";
-			//std::cin.ignore();
-			continue;
-		}
-
-		if (!isDigitOnly(tel)) 
-		{
-			// ����
-			std::cout << "\nPlease enter correct TEL.(number only)\nyou should enter number. your input=" << tel << "\n";
-
-			continue;
-		}
-
-		break;
-	}
-
-	// 저장
-	Student s(name, stdid, birth, depart, tel);
-
-	WriteLine(s);
-	std::cout << "\nsaved successfully!\n\n";
-
+	std::string input_string;
+	std::cin.clear();
+	std::getline(std::cin, input_string);
+	trim(input_string);
+	return input_string;
 }
 
+std::string InputName()
+{
+	std::string name;
+	for (;;)
+	{
+		std::cout << "\nEnter student's name\n";
+		name = Input();
 
-void Search()
+		if (name.empty()) std::cout << "\nIt should not be empty. Please enter the name.\n";
+		else if (name.length() > 15) std::cout << "\nPlease enter shorter name. you can enter up to 15 charactors.\n";
+		else if (!isCharOnly(name)) std::cout << "\nPlease enter correct name.(charactor only)\nyou should enter charactor.\n";
+		else break;
+	}
+	return name;
+}
+
+long long InputStudentId(bool check = false)
+{
+	std::string string_id;
+	long long student_id;
+	for (;;)
+	{
+		std::cout << "\nEnter student id\n";
+		string_id = Input();
+
+		if (string_id.empty())
+		{
+			std::cout << "\nIt should not be empty. Please enter the student ID.\n";
+			continue;
+		}
+		
+		if (!isDigitOnly(string_id))
+		{
+			std::cout << "\nPlease input correct ID.\nYou should enter number only.\n";
+			continue;
+		}
+
+		student_id = std::stoll(string_id);
+		if (string_id.length() != 10) std::cout << "\nPlease enter correct student ID(length). you should enter 10 digits.\n";
+		else if (student_id < 1918000000 || student_id > 2078000000) std::cout << "\nPlease enter correct student ID.(range)\nStudent IDs can only be entered from 1918 to 2077.\n";
+		else if (check)
+		{
+			bool exist = false;
+			for (Student student : student_info)
+			{
+				if (student.student_id == student_id)
+				{
+					std::cout << "\nError : Already inserted.\n";
+					exist = true;
+					break;
+				}
+			}
+			if (!exist) break;
+		}
+		else break;
+	}
+	return student_id;
+}
+
+int InputBirthYear()
+{
+	std::string string_year;
+	int birth_year;
+	for (;;)
+	{
+		std::cout << "\nEnter birth year\n";
+		string_year = Input();
+
+		if (string_year.empty())
+		{
+			std::cout << "\nIt should not be empty. Please enter the Enter the birth year.\n";
+			continue;
+		}
+
+		if (!isDigitOnly(string_year))
+		{
+			std::cout << "\nPlease input correct year.\nYou should enter number only.\n";
+			continue;
+		}
+
+		birth_year = std::stoi(string_year);
+		if (birth_year < 1000 || birth_year > 9999) std::cout << "\nPlease enter correct birth year.\nyou should enter 4 digits.\n";
+		else break;
+	}
+	return birth_year;
+}
+
+int InputAdmissionYear()
+{
+	std::string string_year;
+	int admission_year;
+	for (;;)
+	{
+		std::cout << "\nEnter admission year\n";
+		string_year = Input();
+
+		if (string_year.empty())
+		{
+			std::cout << "\nIt should not be empty. Please enter the student ID.\n";
+			continue;
+		}
+
+		if (!isDigitOnly(string_year))
+		{
+			std::cout << "\nPlease input correct year.\nYou should enter number only.\n";
+			continue;
+		}
+
+		admission_year = std::stoi(string_year);
+		if (admission_year < 1000 || admission_year > 9999) std::cout << "\nPlease enter correct admission year.\nyou should enter 4 digits.\n";
+		else break;
+	}
+	return admission_year;
+}
+
+std::string InputDepartment()
+{
+	std::string string_depart;
+	for (;;)
+	{
+		std::cout << "\nEnter student's department\n";
+		string_depart = Input();
+
+		if (string_depart.empty())
+		{
+			std::cout << "\nIt should not be empty. Please enter the student's department.\n";
+			continue;
+		}
+
+		if (isDigitOnly(string_depart))
+		{
+			std::cout << "\nPlease input correct Department infomation.\nYou should enter charactors.\n";
+			continue;
+		}
+		else break;
+		//department = std::stoll(string_depart);
+		
+	}
+	return string_depart;
+}
+
+std::string InputTelephone()
+{
+	std::string telephone;
+	for (;;)
+	{
+		std::cout << "\nEnter student's Tel number\n";
+		telephone = Input();
+
+		if (telephone.empty())
+		{
+			std::cout << "\nIt should not be empty. Please enter the student's Tel number.\n";
+			continue;
+		}
+
+		if (!isDigitOnly(telephone)) std::cout << "\nPlease enter correct TEL.(number only)\nyou should enter number.\n";
+
+		else if (telephone.length() > 12 || telephone.length() < 10)
+		{
+			std::cout << "\nPlease enter correct TEL.(length)\nyou should enter 11 to 12 digits.\n";
+			continue;
+		}
+		else break;
+	}
+	return telephone;
+}
+
+void Insertion()
+{
+	std::cout << "\n- Insertion -\n";
+	std::cin.ignore();
+	std::string name = InputName();
+	long long student_id = InputStudentId(true);
+	int birth_year = InputBirthYear();
+	std::string department = InputDepartment();
+	std::string telephone = InputTelephone();
+	
+
+	
+	Student s(name, student_id, birth_year, department, telephone);
+	WriteLine(s);
+	std::cout << "\nSaved successfully!\n\n";
+}
+
+void PrintSerachFirst()
+{
+	std::ostringstream ss;
+	ss << std::left << std::setw(16) << "Name" << std::setw(16) << "Student ID" << std::setw(24) << "Dept" << std::setw(16) << "Birth Year" << std::setw(16) << "Tel";
+	
+	std::string ps = ss.str();
+	std::cout << "\n" << ps << "\n";
+}
+
+void PrintSearchStudent(Student student)
+{
+	std::ostringstream ss;
+	ss << std::left << std::setw(16) << student.name
+		<< std::setw(16) << student.student_id
+		<< std::setw(24) << student.department
+		<< std::setw(16) << student.birth_year
+		<< std::setw(16) << student.telephone;
+
+	std::string ps = ss.str();
+	std::cout << ps << "\n";
+}
+
+void PrintSearchLast(int num)
+{
+	std::cout << "\nTotal " << num << " student was found.\n\n";
+}
+
+void SearchName()
 {
 	int num = 0;
-	std::string name;
-
-	std::cout << "Please input your name.\n";
 	std::cin.ignore();
-	std::getline(std::cin, name);
+	std::string name = InputName();
 
+	PrintSerachFirst();
 	for (Student student : student_info) 
 	{
-		if (student.name == name) 
-		{
-			num++;
-			std::cout << student.name + "," << std::endl;
-			std::cout << std::to_string(student.student_id) + "," << std::endl; 
-			std::cout << std::to_string(student.birth_year) + "," << std::endl; 
-			std::cout << student.department + "," << std::endl;
-			std::cout << student.telephone + '\n' << std::endl;
-		}
+		if (student.name == name) PrintSearchStudent(student), num++;
 	}
-
-	std::cout << "Total " << num << " student was found.\n";
+	PrintSearchLast(num);
 }
 
 void SearchId() 
 {
 	int num = 0;
-	long long id; // 10자리 수를 받기 위하여 long long을 사용.
+	std::cin.ignore();
+	long long student_id = InputStudentId(false);
 
-	std::cout << "Please input your student ID. (10 numbers)\n";
-	std::cin >> id;
-
-	if ( id < 1000000000 || id >= 10000000000) 
+	PrintSerachFirst();
+	for (Student student : student_info)
 	{
-		std::cout << "You input wrong ID.\n";
-		SearchId();
+		if (student.student_id == student_id) PrintSearchStudent(student), num++;
 	}
-	// 기존 방식에서는 input wrong ID 인 상태에서도 Total ~ student was found 가 출력되었기 때문에, else문 안에 넣어서 처리하였음.
-	else 
-	{
-		for (Student student : student_info)
-		{
-			if (static_cast<long long>(student.student_id) == id) // vector안의 값을 long long으로 형변환
-			{
-				num++;
-				std::cout << student.name + "," << std::endl;
-				std::cout << std::to_string(student.student_id) + "," << std::endl;
-				std::cout << std::to_string(student.birth_year) + "," << std::endl;
-				std::cout << student.department + "," << std::endl;
-				std::cout << student.telephone + '\n' << std::endl;
-			}
-		}
-
-		std::cout << "Total " << num << " student was found.\n";
-	}
-
+	PrintSearchLast(num);
 }
 
 void SearchYear() 
 {
 	int num = 0;
-	int year;
+	std::cin.ignore();
+	int year = InputAdmissionYear();
 
-	std::cout << "Please input your admission year. (4 numbers)\n";
-	std::cin >> year;
-
-	if (year < 1000 || year >= 10000) 
+	PrintSerachFirst();
+	for (Student student : student_info)
 	{
-		std::cout << "You input wrong year.\n";
-		SearchYear();
+		if (student.student_id / 1000000 == year) PrintSearchStudent(student), num++;
 	}
-
-	for (Student student : student_info) 
-	{
-		if (student.student_id / 1000000 == year) 
-		{
-			num++;
-			std::cout << student.name + "," << std::endl;
-			std::cout << std::to_string(student.student_id) + "," << std::endl;
-			std::cout << std::to_string(student.birth_year) + "," << std::endl;
-			std::cout << student.department + "," << std::endl;
-			std::cout << student.telephone + '\n' << std::endl;
-		}
-	}
-
-	std::cout << "Total " << num << " student was found.\n";
+	PrintSearchLast(num);
 }
 
 void SearchDepartment()
 {
 	int num = 0;
-	std::string department;
-
-	std::cout << "Please input your department.\n";
 	std::cin.ignore();
-	std::getline(std::cin, department);
+	std::string department = InputDepartment();
 
-	for (Student student : student_info) 
+	PrintSerachFirst();
+	for (Student student : student_info)
 	{
-		if (student.department == department) 
-		{
-			num++;
-			std::cout << student.name + "," << std::endl;
-			std::cout << std::to_string(student.student_id) + "," << std::endl;
-			std::cout << std::to_string(student.birth_year) + "," << std::endl;
-			std::cout << student.department + "," << std::endl;
-			std::cout << student.telephone + '\n' << std::endl;
-		}		
+		if (student.department == department) PrintSearchStudent(student), num++;
 	}
-
-	std::cout << "Total " << num << " student was found.\n";
+	PrintSearchLast(num);
 
 }
 
@@ -458,18 +411,9 @@ void SearchAll()
 {
 	int num = 0;
 
-	for (Student student : student_info) 
-	{		
-		num++;
-		std::cout << student.name + "," << std::endl;
-		std::cout << std::to_string(student.student_id) + "," << std::endl;
-		std::cout << std::to_string(student.birth_year) + "," << std::endl;
-		std::cout << student.department + "," << std::endl;
-		std::cout << student.telephone + '\n' << std::endl;
-	}
-
-	std::cout << "Total " << num << " student was found.\n";
-
+	PrintSerachFirst();
+	for (Student student : student_info) PrintSearchStudent(student), num++;
+	PrintSearchLast(num);
 }
 
 void Search()
@@ -477,7 +421,7 @@ void Search()
 	while (true)
 	{
 		int num = 0;
-		std::cout << "- Search -\n1. Search by name\n2. Search by student ID\n3. Search by admission year\n4. Search by department name\n5. List All\n6. Exit\n";
+		std::cout << "\n- Search -\n1. Search by name\n2. Search by student ID\n3. Search by admission year\n4. Search by department name\n5. List All\n6. Exit\n";
 		std::cin >> num;
 
 		if (num == 1) SearchName();
@@ -485,8 +429,7 @@ void Search()
 		else if (num == 3) SearchYear();
 		else if (num == 4) SearchDepartment();
 		else if (num == 5) SearchAll();
-		else if (num == 6);
-		else std::cout << "Please enter the correct number.\n";
+		else if (num != 6) std::cout << "Please enter the correct number.\n";
 
 		if (num >= 1 && num <= 6) break;
 	}
@@ -502,7 +445,7 @@ bool CompareId(Student a, Student b)
 }
 bool CompareYear(Student a, Student b)
 {
-	return a.birth_year < b.birth_year;
+	return a.student_id / 1000000 < b.student_id / 1000000;
 }
 bool CompareDepart(Student a, Student b)
 {
@@ -515,19 +458,21 @@ void Sorting()
 
 	while (sortnum > 4 || sortnum < 1)
 	{
-		std::cout << "- Sorting Option\n1. Sort by Name\n2. Sort by Student ID\n3. Sort by Admission year\n4. Sort by Department namet\n";
+		std::cout << "\n- Sorting Option -\n1. Sort by Name\n2. Sort by Student ID\n3. Sort by Admission year\n4. Sort by Department name\n";
 		std::cin >> sortnum;
+
 		if (sortnum == 1) std::sort(student_info.begin(), student_info.end(), CompareName);
 		else if (sortnum == 2) std::sort(student_info.begin(), student_info.end(), CompareId);
 		else if (sortnum == 3) std::sort(student_info.begin(), student_info.end(), CompareYear);
 		else if (sortnum == 4) std::sort(student_info.begin(), student_info.end(), CompareDepart);
 		else std::cout << "invalid order";
 	}
-	std::cout << "Go back to the main menu, after selecting the sorting option..\n";
+
 	WriteAll();
+	std::cout << "\nGo back to the main menu, after selecting the sorting option..\n\n";
 }
 
-int main(int argc, char** argv) // run.exe stu.txt jjhg ==> argc=3,  run.exe => argc=1
+int main(int argc, char** argv)
 {
 	if (argc < 2) file = "file1.txt";
 	else file = argv[1];
